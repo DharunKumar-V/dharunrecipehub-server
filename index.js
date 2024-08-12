@@ -157,7 +157,7 @@ const messageSchema = new mongoose.Schema({
 const Message = mongoose.model('Message', messageSchema);
 
 // Middleware
-app.use(express.json()); // For parsing application/json
+// For parsing application/json
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 
 
