@@ -2,6 +2,7 @@ import express from  "express"
 import cors from "cors"
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
+import axios from "axios";
 dotenv.config();
 
 
@@ -42,7 +43,7 @@ app.post("/sign-in", async (req, res) => {
     const newUser = new Usermodel({
       name,
       email,
-      password, // Save plain password (not recommended for production)
+      password, 
     });
 
     await newUser.save();
@@ -59,7 +60,7 @@ app.post('/log-in', async (req, res) => {
 
   try {
     const user = await Usermodel.findOne({ name });
-    if (!user || user.password !== password) { // Compare plain passwords
+    if (!user || user.password !== password) { 
       return res.status(401).json({ message: 'Invalid username or password' });
     }
 
@@ -70,12 +71,8 @@ app.post('/log-in', async (req, res) => {
 });
 
 
-import axios from "axios";
 
-// MongoDB connection
 
-      
-    
 const recipeSchema = new mongoose.Schema({
     label: String,
     image: String,
@@ -87,7 +84,6 @@ const recipeSchema = new mongoose.Schema({
 
 const Recipe = mongoose.model('datas', recipeSchema);
 
-// Replace with your Edamam API key and App ID
 const apiKey = process.env.EDAMAM_API_KEY;
 const appId =  process.env.EDAMAM_APP_ID;
 
@@ -132,7 +128,6 @@ app.get('/saved-recipes', async (req, res) => {
 
 
 
-// Define the schema and model for storing messages
 const messageSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -142,16 +137,15 @@ const messageSchema = new mongoose.Schema({
 
 const Message = mongoose.model('Message', messageSchema);
 
-// Middleware
-// For parsing application/json
+
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 
 
-// Route for handling form submissions
+
 app.post('/submit', async (req, res) => {
   const { name, email, phone, message } = req.body;
 
-  // Create a new message document
+  
   const newMessage = new Message({
     name,
     email,
@@ -160,7 +154,7 @@ app.post('/submit', async (req, res) => {
   });
 
   try {
-    // Save the message document to the database
+    
     await newMessage.save();
     res.status(200).send('Message received');
   } catch (err) {
